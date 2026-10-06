@@ -1,0 +1,4 @@
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 3
+	at Main.average(Main.java:7)
+	at Main.report(Main.java:13)
+	at Main.main(Main.java:18)

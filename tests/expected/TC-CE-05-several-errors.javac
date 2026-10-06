@@ -1,0 +1,28 @@
+Main.java:6: error: no suitable method found for add(int)
+        names.add(42);
+             ^
+    method Collection.add(String) is not applicable
+      (argument mismatch; int cannot be converted to String)
+    method List.add(String) is not applicable
+      (argument mismatch; int cannot be converted to String)
+    method AbstractCollection.add(String) is not applicable
+      (argument mismatch; int cannot be converted to String)
+    method AbstractList.add(String) is not applicable
+      (argument mismatch; int cannot be converted to String)
+    method ArrayList.add(String) is not applicable
+      (argument mismatch; int cannot be converted to String)
+Main.java:8: error: incompatible types: int cannot be converted to boolean
+        boolean empty = count;
+                        ^
+Main.java:9: error: cannot find symbol
+        System.out.println(nmes);
+                           ^
+  symbol:   variable nmes
+  location: class Main
+Main.java:10: error: cannot find symbol
+        undefinedMethod();
+        ^
+  symbol:   method undefinedMethod()
+  location: class Main
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+4 errors

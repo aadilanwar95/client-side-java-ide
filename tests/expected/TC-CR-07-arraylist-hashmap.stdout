@@ -1,0 +1,8 @@
+[pear, apple, cherry, apple]
+4 items, apple at 1
+[apple, apple, cherry]
+{apple=2, cherry=1}
+true
+apple -> 2
+cherry -> 1
+[1, 9, 25]
