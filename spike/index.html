@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>javac spike</title>
+<style>
+  body { font: 14px/1.45 system-ui, sans-serif; margin: 24px; color: #1d1d1b; background: #fbfaf7; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  table { border-collapse: collapse; margin-top: 16px; width: 100%; }
+  th, td { border-bottom: 1px solid #ddd8cc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  td.pass { color: #2f6b3a; font-weight: 600; }
+  td.fail { color: #a3301f; font-weight: 600; }
+  pre { margin: 0; white-space: pre-wrap; font: 12px/1.4 ui-monospace, Menlo, monospace; }
+  #status { color: #6b675d; }
+</style>
+</head>
+<body>
+<h1>javac spike</h1>
+<div id="status">Starting…</div>
+<table>
+  <thead><tr><th>Case</th><th>Result</th><th>Time</th><th>Detail</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+<script src="https://cjrtnc.leaningtech.com/4.3/loader.js"></script>
+<script type="module">
+const params = new URLSearchParams(location.search);
+const javaVersion = Number(params.get('java') || 8);
+const statusEl = document.getElementById('status');
+const rows = document.getElementById('rows');
+
+// program output comes in here via the Launcher.emit native
+let captured = { out: '', err: '' };
+
+const t0 = performance.now();
+statusEl.textContent = `Loading CheerpJ with Java ${javaVersion}…`;
+// code adapted from Leaning Technologies, n.d. (CheerpJ documentation, cheerpjInit, native methods and cheerpjRunLibrary)
+await cheerpjInit({
+  version: javaVersion,
+  status: 'none',
+  natives: {
+    async Java_ide_Launcher_emit(lib, stream, text) {
+      if (stream === 2) captured.err += text; else captured.out += text;
+    },
+  },
+});
+const classPath = javaVersion === 8 ? '/app/lib/tools.jar:/app/lib/launcher.jar' : '/app/lib/launcher.jar';
+const lib = await cheerpjRunLibrary(classPath);
+const Launcher = await lib.ide.Launcher;
+// end of adapted code
+const addStringFile = window.cheerpOSAddStringFile || window.cheerpjAddStringFile;
+const initMs = performance.now() - t0;
+
+let runCount = 0;
+async function compileAndRun(source, input = '') {
+  runCount++;
+  const className = (source.match(/public\s+(?:final\s+|abstract\s+)*class\s+(\w+)/) || [])[1] || 'Main';
+  // /str/ has no subfolders so the file just gets overwritten each run
+  const srcPath = `/str/${className}.java`;
+  const outDir = `/files/build${runCount}/`;
+  const inputPath = `/str/input${runCount}.txt`;
+  addStringFile(srcPath, source);
+  addStringFile(inputPath, input);
+  captured = { out: '', err: '' };
+  const c0 = performance.now();
+  const compileResult = await Launcher.compile(srcPath, outDir);
+  const compileMs = performance.now() - c0;
+  const newline = compileResult.indexOf('\n');
+  const compileCode = Number(compileResult.slice(0, newline));
+  const javacLog = compileResult.slice(newline + 1);
+  if (compileCode !== 0) return { compileCode, javacLog, compileMs, runMs: 0, exitCode: null, ...captured };
+  const r0 = performance.now();
+  const exitCode = await Launcher.run(className, outDir, inputPath);
+  const runMs = performance.now() - r0;
+  return { compileCode, javacLog, compileMs, runMs, exitCode, ...captured };
+}
+
+function report(name, ok, result, note = '') {
+  const tr = document.createElement('tr');
+  const time = result ? `compile ${Math.round(result.compileMs)} ms, run ${Math.round(result.runMs)} ms` : '';
+  const detail = result
+    ? `exit=${result.exitCode} javac=${result.compileCode}\n--- stdout ---\n${result.out}--- stderr ---\n${result.err}--- javac ---\n${result.javacLog}${note}`
+    : note;
+  tr.innerHTML = `<td>${name}</td><td class="${ok ? 'pass' : 'fail'}">${ok ? 'PASS' : 'FAIL'}</td><td>${time}</td><td><pre></pre></td>`;
+  tr.querySelector('pre').textContent = detail;
+  rows.appendChild(tr);
+}
+
+const cases = [
+  {
+    name: '1. Hello World (stdout)',
+    source: `public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}`,
+    check: r => r.exitCode === 0 && r.out === 'Hello, World!\n' && r.err === '',
+  },
+  {
+    name: '2. stdout and stderr',
+    source: `public class Main {
+    public static void main(String[] args) {
+        System.out.print("to out ");
+        System.out.println(42);
+        System.err.println("to err");
+    }
+}`,
+    check: r => r.exitCode === 0 && r.out === 'to out 42\n' && r.err === 'to err\n',
+  },
+  {
+    name: '3. Scanner(System.in) with nextInt and nextLine',
+    input: '5\nAda Lovelace\n',
+    source: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        in.nextLine();
+        String name = in.nextLine();
+        System.out.println("n squared = " + (n * n));
+        System.out.println("Hello, " + name);
+    }
+}`,
+    check: r => r.exitCode === 0 && r.out === 'n squared = 25\nHello, Ada Lovelace\n',
+  },
+  {
+    name: '4. Compile error (missing semicolon)',
+    source: `public class Main {
+    public static void main(String[] args) {
+        int x = 1
+        System.out.println(x);
+    }
+}`,
+    check: r => r.compileCode !== 0 && /Main\.java:3: error: ';' expected/.test(r.javacLog),
+  },
+  {
+    name: '5. Runtime exception with line number',
+    source: `public class Main {
+    public static void main(String[] args) {
+        int zero = 0;
+        System.out.println(10 / zero);
+    }
+}`,
+    check: r => r.exitCode === 1
+      && r.err.startsWith('Exception in thread "main" java.lang.ArithmeticException: / by zero\n')
+      && r.err.includes('at Main.main(Main.java:4)'),
+  },
+  {
+    name: '6a. Recompile: version 1',
+    source: `public class Main {
+    static int counter = 0;
+    public static void main(String[] args) {
+        counter++;
+        System.out.println("v1 counter=" + counter);
+    }
+}`,
+    check: r => r.out === 'v1 counter=1\n',
+  },
+  {
+    name: '6b. Recompile: version 2 (new class, fresh statics)',
+    source: `public class Main {
+    static int counter = 0;
+    public static void main(String[] args) {
+        counter++;
+        System.out.println("v2 counter=" + counter);
+    }
+}`,
+    check: r => r.out === 'v2 counter=1\n',
+  },
+  {
+    name: '7. Public class not called Main',
+    source: `public class Calculator {
+    public static void main(String[] args) {
+        System.out.println(7 * 6);
+    }
+}`,
+    check: r => r.exitCode === 0 && r.out === '42\n',
+  },
+  {
+    name: '8. Infinite recursion (StackOverflowError)',
+    source: `public class Main {
+    static int depth(int n) {
+        return depth(n + 1);
+    }
+    public static void main(String[] args) {
+        System.out.println(depth(0));
+    }
+}`,
+    check: r => r.exitCode === 1
+      && r.err.startsWith('Exception in thread "main" java.lang.StackOverflowError')
+      && r.err.includes('at Main.depth(Main.java:3)'),
+  },
+  {
+    name: '8b. Infinite recursion with large frames',
+    source: `public class Main {
+    static double deep(int n, double a, double b, double c, long d, long e) {
+        double f = a * b, g = b * c, h = c * a, i = f + g + h;
+        long j = d + e, k = d * e, l = j - k, m = l + n;
+        String s = "level" + n;
+        double[] arr = {a, b, c, f, g, h, i};
+        return deep(n + 1, i, f, g, j, m) + arr.length + s.length();
+    }
+    public static void main(String[] args) {
+        System.out.println(deep(0, 1, 2, 3, 4, 5));
+    }
+}`,
+    check: r => r.exitCode === 1 && r.err.startsWith('Exception in thread "main" java.lang.StackOverflowError\n')
+      && r.err.includes('at Main.deep(Main.java:7)'),
+  },
+  {
+    name: '8c. Deep but finite recursion (1500 calls)',
+    source: `public class Main {
+    static long sum(int n) {
+        return n == 0 ? 0 : n + sum(n - 1);
+    }
+    public static void main(String[] args) {
+        System.out.println(sum(1500));
+    }
+}`,
+    check: r => r.exitCode === 0 && r.out === '1125750\n',
+  },
+  {
+    name: '9. Still works after the crash',
+    source: `public class Main {
+    public static void main(String[] args) {
+        System.out.println("still alive");
+    }
+}`,
+    check: r => r.exitCode === 0 && r.out === 'still alive\n',
+  },
+];
+
+// the TC-RE cases from tests/, compared with jdk 8 output from tests/make_expected.sh
+// pass = same stdout, exit code, first stderr line (type and msg) and student frames (lines)
+const fetchText = async path => (await fetch(path)).text();
+const studentFrames = text => text.split('\n').filter(l => /^\tat Main\./.test(l));
+for (const name of ['TC-RE-01-division-by-zero', 'TC-RE-02-array-index', 'TC-RE-03-null-reference',
+                    'TC-RE-04-number-format', 'TC-RE-05-infinite-recursion', '../spike/probe']) {
+  const base = name.startsWith('../') ? name.slice(3) : `tests/${name}`;
+  const expBase = name.startsWith('../') ? `${base}/expected` : `tests/expected/${name}`;
+  const source = await fetchText(`/${base}/Main.java`);
+  const exp = {
+    stdout: await fetchText(`/${expBase}.stdout`),
+    stderr: await fetchText(`/${expBase}.stderr`),
+    exit: Number(await fetchText(`/${expBase}.exit`)),
+  };
+  cases.push({
+    name: `${name.replace('../spike/', '')} (vs JDK)`,
+    source,
+    check: r => r.out === exp.stdout && r.exitCode === exp.exit
+      && r.err.split('\n')[0] === exp.stderr.split('\n')[0]
+      && studentFrames(r.err).join('\n') === studentFrames(exp.stderr).join('\n'),
+  });
+}
+
+statusEl.textContent = `Java ${javaVersion}: CheerpJ ready in ${Math.round(initMs)} ms. Running cases…`;
+let passed = 0;
+for (const c of cases) {
+  try {
+    const r = await compileAndRun(c.source, c.input);
+    const ok = c.check(r);
+    if (ok) passed++;
+    report(c.name, ok, r);
+  } catch (e) {
+    report(c.name, false, null, `threw in JavaScript: ${e && (e.stack || e)}`);
+  }
+}
+statusEl.textContent = `Java ${javaVersion}: ${passed}/${cases.length} passed. CheerpJ init ${Math.round(initMs)} ms.`;
+document.title = `spike done ${passed}/${cases.length}`;
+</script>
+</body>
+</html>

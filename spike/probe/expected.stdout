@@ -1,0 +1,12 @@
+finally 5
+caught For input string: "x"
+finally x
+4
+lambda 3
+1 2
+2
+12 false b 8 600 1.25 1.0 xy 9
+caught java.lang.ArrayIndexOutOfBoundsException: 2
+caught java.lang.NullPointerException
+caught java.lang.ArrayStoreException: java.lang.String
+caught java.lang.ArrayIndexOutOfBoundsException: -1

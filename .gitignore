@@ -1,0 +1,5 @@
+.DS_Store
+.jdk/
+node_modules/
+launcher/classes/
+*.err
