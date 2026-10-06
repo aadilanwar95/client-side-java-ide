@@ -1,0 +1,41 @@
+Browser: Firefox 156.0.1
+Date: 2026-10-06T16:37:55.201Z
+Page: http://localhost:8090/
+Result: 10 of 10 passed
+
+PASS TC-CR-01-hello-world
+  stdout and stderr identical to JDK 8
+  requests during this case: GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym, GET https://cjrtnc.leaningtech.com/4.3/8/jre/lib/rt.jar
+PASS TC-CR-07-arraylist-hashmap
+  stdout and stderr identical to JDK 8
+  requests during this case: GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym
+PASS TC-IO-03-scanner-nextint-nextline
+  stdout and stderr identical to JDK 8
+  requests during this case: GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym, GET https://cjrtnc.leaningtech.com/4.3/8/lib/currency.data, GET https://cjrtnc.leaningtech.com/4.3/8/jre/lib/rt.jar, GET https://cjrtnc.leaningtech.com/4.3/8/lib/currency.properties
+PASS TC-IO-05-wrong-input-type
+  stdout identical; exception type, message and Main.java lines identical to JDK 8; Java library frames show (Unknown Source)
+  requests during this case: GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym, GET data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2215%22%20fill%3D%22%23f87%22%20stroke%3D%22%23f43%22%20stroke-width%3D%226%22%2F%3E</svg>, GET data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="6" height="3">%3Cpath%20d%3D%22m0%202.5%20l2%20-1.5%20l1%200%20l2%201.5%20l1%200%22%20stroke%3D%22%23f11%22%20fill%3D%22none%22%20stroke-width%3D%22.7%22%2F%3E</svg>
+PASS TC-CE-01-missing-semicolon
+  javac messages and lines identical to JDK 8 (1 error); 1 line marked in the editor
+PASS TC-CE-05-several-errors
+  javac messages and lines identical to JDK 8 (4 errors); 4 lines marked in the editor
+  requests during this case: GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym
+PASS TC-RE-01-division-by-zero
+  exception type, message and Main.java lines identical to JDK 8; TC-CR-01 compiled and ran correctly afterwards
+  requests during this case: GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym
+PASS TC-RE-05-infinite-recursion
+  exception type, message and Main.java lines identical to JDK 8; TC-CR-01 compiled and ran correctly afterwards
+  requests during this case: GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym
+PASS TC-CS-01-network-during-compile
+  3 requests during compile and run, all GET downloads of fixed files (https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym); none sent data; marker CS01_SOURCE_MARKER_7319 found in 0 of 237 requests in the session; output identical to JDK 8
+  requests during this case: GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym
+PASS TC-CS-02-network-during-run
+  3 requests during compile and run, all GET downloads of fixed files (https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym); none sent data; marker CS02_INPUT_MARKER_4826 found in 0 of 240 requests in the session; output identical to JDK 8
+  requests during this case: GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ext/index.list, GET https://cjrtnc.leaningtech.com/4.3/8/lib/ct.sym
+
+All requests in the session, by method and origin:
+  45 x GET http://localhost:8090
+  144 x GET https://cjrtnc.leaningtech.com
+  49 x GET https://esm.sh
+  2 x GET null
+  requests with a body: 0

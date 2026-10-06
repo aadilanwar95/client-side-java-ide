@@ -1,0 +1,68 @@
+Browser: Chrome 154.0.8037.98
+Date: 2026-10-06T16:08:28.529Z
+Page: http://localhost:8090/
+Result: 27 of 27 passed
+
+PASS TC-CR-01-hello-world
+  stdout and stderr identical to JDK 8
+PASS TC-CR-02-arithmetic-casting
+  stdout and stderr identical to JDK 8
+PASS TC-CR-03-selection-loops
+  stdout and stderr identical to JDK 8
+PASS TC-CR-04-arrays
+  stdout and stderr identical to JDK 8
+PASS TC-CR-05-string-methods
+  stdout and stderr identical to JDK 8
+PASS TC-CR-06-several-classes
+  stdout and stderr identical to JDK 8
+PASS TC-CR-07-arraylist-hashmap
+  stdout and stderr identical to JDK 8
+PASS TC-IO-01-print-println
+  stdout and stderr identical to JDK 8
+PASS TC-IO-02-system-err
+  stdout and stderr identical to JDK 8
+PASS TC-IO-03-scanner-nextint-nextline
+  stdout and stderr identical to JDK 8
+PASS TC-IO-04-several-inputs
+  stdout and stderr identical to JDK 8
+PASS TC-IO-05-wrong-input-type
+  stdout identical; exception type, message and Main.java lines identical to JDK 8; Java library frames show (Unknown Source)
+  requests during this case: GET data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2215%22%20fill%3D%22%23f87%22%20stroke%3D%22%23f43%22%20stroke-width%3D%226%22%2F%3E</svg>, GET data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="6" height="3">%3Cpath%20d%3D%22m0%202.5%20l2%20-1.5%20l1%200%20l2%201.5%20l1%200%22%20stroke%3D%22%23f11%22%20fill%3D%22none%22%20stroke-width%3D%22.7%22%2F%3E</svg>
+PASS TC-CE-01-missing-semicolon
+  javac messages and lines identical to JDK 8 (1 error); 1 line marked in the editor
+PASS TC-CE-02-undeclared-variable
+  javac messages and lines identical to JDK 8 (1 error); 1 line marked in the editor
+PASS TC-CE-03-type-mismatch
+  javac messages and lines identical to JDK 8 (1 error); 1 line marked in the editor
+PASS TC-CE-04-missing-return
+  javac messages and lines identical to JDK 8 (1 error); 1 line marked in the editor
+PASS TC-CE-05-several-errors
+  javac messages and lines identical to JDK 8 (4 errors); 4 lines marked in the editor
+PASS TC-RE-01-division-by-zero
+  exception type, message and Main.java lines identical to JDK 8; TC-CR-01 compiled and ran correctly afterwards
+PASS TC-RE-02-array-index
+  exception type, message and Main.java lines identical to JDK 8; TC-CR-01 compiled and ran correctly afterwards
+PASS TC-RE-03-null-reference
+  exception type, message and Main.java lines identical to JDK 8; TC-CR-01 compiled and ran correctly afterwards
+PASS TC-RE-04-number-format
+  exception type, message and Main.java lines identical to JDK 8; Java library frames show (Unknown Source); TC-CR-01 compiled and ran correctly afterwards
+PASS TC-RE-05-infinite-recursion
+  exception type, message and Main.java lines identical to JDK 8; TC-CR-01 compiled and ran correctly afterwards
+PASS TC-CS-01-network-during-compile
+  0 network requests during compile and run; marker CS01_SOURCE_MARKER_7319 found in 0 of 103 requests in the session; output identical to JDK 8
+PASS TC-CS-02-network-during-run
+  0 network requests during compile and run; marker CS02_INPUT_MARKER_4826 found in 0 of 103 requests in the session; output identical to JDK 8
+PASS TC-OP-01-debugging-aid
+  clicking Main.java:7, Main.java:13, Main.java:18 selected lines 7, 13, 18; the runtime problem and the compile error (Line 7: ';' expected) both moved the cursor to line 7
+PASS TC-OP-02-test-runner
+  three tests gave PASS, PASS, FAIL ("2 of 3 passed"); the failing test showed the actual output Sum: 10
+PASS TC-OP-03-event-log
+  log had 9 rows with time and duration, including runtime load, compiler ready, compile with 1 error, run with exit code 0, run with ArithmeticException (line 3) and the test run
+  requests during this case: GET http://localhost:8090/, GET http://localhost:8090/style.css, GET https://cjrtnc.leaningtech.com/4.3/loader.js, GET http://localhost:8090/app.js, GET https://esm.sh/codemirror@6.0.2?target=es2022, GET https://esm.sh/@codemirror/lang-java@6.0.2?target=es2022, GET https://esm.sh/@codemirror/language@%5E6.0.0?target=es2022, GET https://esm.sh/@codemirror/lint@%5E6.0.0?target=es2022, GET https://esm.sh/@codemirror/autocomplete@%5E6.0.0?target=es2022, GET https://esm.sh/@codemirror/commands@%5E6.0.0?target=es2022, GET https://esm.sh/@codemirror/search@%5E6.0.0?target=es2022, GET https://esm.sh/@codemirror/state@%5E6.0.0?target=es2022, GET https://esm.sh/@codemirror/view@%5E6.0.0?target=es2022, GET https://esm.sh/codemirror@6.0.2/es2022/codemirror.mjs, GET https://esm.sh/@lezer/java@%5E1.0.0?target=es2022, GET https://esm.sh/@codemirror/lang-java@6.0.2/es2022/lang-java.mjs, GET https://esm.sh/@codemirror/view@%5E6.23.0?target=es2022, GET https://esm.sh/@lezer/common@%5E1.5.0?target=es2022, GET https://esm.sh/@lezer/highlight@%5E1.0.0?target=es2022, GET https://esm.sh/style-mod@%5E4.0.0?target=es2022, GET https://esm.sh/@codemirror/language@6.12.4/es2022/language.mjs, GET https://esm.sh/@codemirror/view@%5E6.42.0?target=es2022, GET https://esm.sh/crelt@%5E1.0.5?target=es2022, GET https://esm.sh/@codemirror/lint@6.9.7/es2022/lint.mjs, GET https://esm.sh/@codemirror/view@%5E6.17.0?target=es2022, GET https://esm.sh/@codemirror/autocomplete@6.20.3/es2022/autocomplete.mjs, GET https://esm.sh/@codemirror/state@%5E6.7.0?target=es2022, GET https://esm.sh/@codemirror/view@%5E6.27.0?target=es2022, GET https://esm.sh/@lezer/common@%5E1.1.0?target=es2022, GET https://esm.sh/@codemirror/commands@6.11.1/es2022/commands.mjs, GET https://esm.sh/@codemirror/view@%5E6.37.0?target=es2022, GET https://esm.sh/@codemirror/search@6.7.2/es2022/search.mjs, GET https://esm.sh/@marijn/find-cluster-break@%5E1.0.0?target=es2022, GET https://esm.sh/@codemirror/state@6.7.6/es2022/state.mjs, GET https://esm.sh/crelt@%5E1.0.6?target=es2022, GET https://esm.sh/style-mod@%5E4.1.0?target=es2022, GET https://esm.sh/w3c-keyname@%5E2.2.4?target=es2022, GET https://esm.sh/@codemirror/view@6.43.13/es2022/view.mjs, GET https://esm.sh/@lezer/lr@%5E1.0.0?target=es2022, GET https://esm.sh/@lezer/java@1.1.4/es2022/java.mjs, GET https://esm.sh/@lezer/common@1.5.3/es2022/common.mjs, GET https://esm.sh/@lezer/common@%5E1.3.0?target=es2022, GET https://esm.sh/@lezer/highlight@1.2.5/es2022/highlight.mjs, GET https://esm.sh/style-mod@4.1.4/es2022/style-mod.mjs, GET https://esm.sh/crelt@1.0.7/es2022/crelt.mjs, GET https://esm.sh/@marijn/find-cluster-break@1.0.4/es2022/find-cluster-break.mjs, GET https://esm.sh/w3c-keyname@2.2.8/es2022/w3c-keyname.mjs, GET https://esm.sh/@lezer/common@%5E1.0.0?target=es2022, GET https://esm.sh/node/process.mjs, GET https://esm.sh/@lezer/lr@1.4.10/es2022/lr.mjs, GET https://esm.sh/node/events.mjs, GET https://esm.sh/node/tty.mjs, GET https://esm.sh/node/async_hooks.mjs, GET https://cjrtnc.leaningtech.com/4.3/cj3.js, GET https://cjrtnc.leaningtech.com/4.3/cj3.wasm, GET https://cjrtnc.leaningtech.com/4.3/cheerpj.css, GET https://cjrtnc.leaningtech.com/4.3/cheerpOS.js, GET https://cjrtnc.leaningtech.com/4.3/c.html, GET https://cjrtnc.leaningtech.com/4.3/cj3n8.wasm, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/launcher.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/launcher.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET http://localhost:8090/lib/tools.jar, GET data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2215%22%20fill%3D%22%23f87%22%20stroke%3D%22%23f43%22%20stroke-width%3D%226%22%2F%3E</svg>, GET data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="6" height="3">%3Cpath%20d%3D%22m0%202.5%20l2%20-1.5%20l1%200%20l2%201.5%20l1%200%22%20stroke%3D%22%23f11%22%20fill%3D%22none%22%20stroke-width%3D%22.7%22%2F%3E</svg>
+
+All requests in the session, by method and origin:
+  133 x GET http://localhost:8090
+  21 x GET https://cjrtnc.leaningtech.com
+  147 x GET https://esm.sh
+  6 x GET null
+  requests with a body: 0
