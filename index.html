@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Java IDE</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cjrtnc.leaningtech.com/4.3/loader.js"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Java IDE</h1>
+    <span id="file-name" class="file-name">Main.java</span>
+    <button id="run" class="run-button" disabled title="Compile and run (Ctrl+Enter)">Run</button>
+    <span id="status" class="status">Loading Java runtime…</span>
+  </header>
+
+  <main class="workspace">
+    <section class="editor-pane" aria-label="Code editor">
+      <div id="editor"></div>
+    </section>
+
+    <section class="side-pane">
+      <div class="input-area">
+        <label for="program-input">Program input <span class="hint">read through System.in when you press Run</span></label>
+        <textarea id="program-input" spellcheck="false"></textarea>
+      </div>
+
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="console" aria-selected="true">Console</button>
+        <button role="tab" data-tab="problems" aria-selected="false">Problems <span id="problem-count" class="count" hidden></span></button>
+        <button role="tab" data-tab="tests" aria-selected="false">Tests</button>
+        <button role="tab" data-tab="log" aria-selected="false">Log</button>
+      </nav>
+
+      <div id="panel-console" class="panel" role="tabpanel">
+        <pre id="console" class="console"></pre>
+      </div>
+
+      <div id="panel-problems" class="panel" role="tabpanel" hidden>
+        <p id="no-problems" class="empty">No problems.</p>
+        <ul id="problems" class="problems"></ul>
+      </div>
+
+      <div id="panel-tests" class="panel" role="tabpanel" hidden>
+        <p class="empty">Each test runs the program with its input and compares the output with the expected output.</p>
+        <div id="test-cases"></div>
+        <div class="button-row">
+          <button id="add-test" type="button">Add test</button>
+          <button id="run-tests" type="button" disabled>Run tests</button>
+          <span id="test-summary" class="summary"></span>
+        </div>
+      </div>
+
+      <div id="panel-log" class="panel" role="tabpanel" hidden>
+        <table class="log">
+          <thead><tr><th>Time</th><th>Event</th><th>Result</th><th>Duration</th></tr></thead>
+          <tbody id="log-rows"></tbody>
+        </table>
+        <div class="button-row">
+          <button id="clear-log" type="button">Clear log</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Your code and input stay in this browser.</span>
+    <a href="https://cheerpj.com">Powered by CheerpJ (Leaning Technologies)</a>
+  </footer>
+</body>
+</html>
