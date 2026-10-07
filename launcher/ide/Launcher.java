@@ -95,8 +95,9 @@ public class Launcher {
         PrintStream oldOut = System.out;
         PrintStream oldErr = System.err;
         InputStream oldIn = System.in;
-        PrintStream out = new PrintStream(new PageStream(1), true);
-        PrintStream err = new PrintStream(new PageStream(2), true);
+        // PageStream decodes utf-8 so encode as utf-8 too (default charset might be something else)
+        PrintStream out = utf8(new PageStream(1));
+        PrintStream err = utf8(new PageStream(2));
         int code = 0;
         try {
             System.setOut(out);
@@ -145,6 +146,14 @@ public class Launcher {
     }
 
     // print uncaught exception the same way the java command does
+    private static PrintStream utf8(OutputStream o) {
+        try {
+            return new PrintStream(o, true, "UTF-8");
+        } catch (java.io.UnsupportedEncodingException e) {
+            return new PrintStream(o, true);
+        }
+    }
+
     private static int reportUncaught(Throwable t, PrintStream err) {
         t = LineTracker.translate(t);
         LineTracker.repair(t);
