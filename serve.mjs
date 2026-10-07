@@ -21,12 +21,13 @@ const types = {
 };
 
 createServer((req, res) => {
-  let path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname));
-  if (path.endsWith('/')) path += 'index.html';
-  const file = join(root, path);
+  // check for a trailing / before normalize(), on windows it turns / into \
+  let urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+  if (urlPath.endsWith('/')) urlPath += 'index.html';
+  const file = join(root, normalize(urlPath));
   let stat;
   try {
-    if (!file.startsWith(root) || path.includes('/.')) throw new Error('forbidden');
+    if (!file.startsWith(root) || urlPath.includes('/.')) throw new Error('forbidden');
     stat = statSync(file);
     if (!stat.isFile()) throw new Error('not a file');
   } catch {
