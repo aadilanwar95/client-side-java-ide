@@ -92,28 +92,41 @@ function markLines(problems) {
 
 // ---------- finding class names ----------
 
-function withoutComments(source) {
-  return source.replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '');
+// blank out comments, strings and char literals so braces and keywords in them are ignored
+function stripCode(source) {
+  return source.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'/g,
+    m => m.replace(/[^\n]/g, ' '));
 }
 
 // file has to be named after the public class (if any)
 function fileClassName(source) {
-  const match = withoutComments(source).match(/public\s+(?:final\s+|abstract\s+)*(?:class|interface|enum)\s+(\w+)/);
+  const match = stripCode(source).match(/\bpublic\s+(?:(?:final|abstract|strictfp)\s+)*(?:class|interface|enum)\s+(\w+)/);
   return match ? match[1] : 'Main';
 }
 
-// class to run = last class declared before main()
+// class to run = the class that contains main(), with package and outer classes added
+// (nested classes are named Outer$Inner in the class files)
 function mainClassName(source) {
-  const text = withoutComments(source);
-  const mainAt = text.search(/static\s+void\s+main\s*\(/);
-  let name = fileClassName(source);
-  if (mainAt < 0) return name;
-  const classPattern = /\b(?:class|interface|enum)\s+(\w+)/g;
-  let match;
-  while ((match = classPattern.exec(text)) !== null && match.index < mainAt) {
-    name = match[1];
+  const text = stripCode(source);
+  const pkg = text.match(/^\s*package\s+([\w.]+)\s*;/m);
+  const prefix = pkg ? pkg[1] + '.' : '';
+  const mainAt = text.search(/\bstatic\s+void\s+main\s*\(/);
+  if (mainAt < 0) return prefix + fileClassName(source);
+  const tokens = /\b(?:class|interface|enum)\s+(\w+)|[{}]/g;
+  const open = [];   // classes we are inside, with the brace depth their body starts at
+  let depth = 0, pending = null, match;
+  while ((match = tokens.exec(text)) !== null && match.index < mainAt) {
+    if (match[1]) pending = match[1];
+    else if (match[0] === '{') {
+      depth++;
+      if (pending) { open.push({ name: pending, depth }); pending = null; }
+    } else {
+      if (open.length && open[open.length - 1].depth === depth) open.pop();
+      depth--;
+    }
   }
-  return name;
+  if (!open.length) return prefix + fileClassName(source);
+  return prefix + open.map(c => c.name).join('$');
 }
 
 // ---------- compiling and running ----------
