@@ -124,6 +124,8 @@ public class Launcher {
                 err.println("   public static void main(String[] args)");
                 return 1;
             }
+            // class can be non public (eg class GFG), java runs those so we have to allow it too
+            main.setAccessible(true);
             main.invoke(null, (Object) new String[0]);
         } catch (InvocationTargetException e) {
             code = reportUncaught(e.getCause(), err);
