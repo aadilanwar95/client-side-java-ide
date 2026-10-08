@@ -19,6 +19,3 @@ The CheerpJ documentation pages have no publication date; they were accessed in 
 - **OpenJDK 8** (`lib/tools.jar`, Azul Zulu 8u504) is GPL version 2 with the Classpath Exception.
 - **ASM** is BSD licensed. It is used from inside the Java 8 runtime, not copied.
 
-## Tools used
-
-The code was written with the help of an AI assistant: Anthropic (2026), *Claude* [Large language model], https://claude.ai.
